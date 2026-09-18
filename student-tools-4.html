@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Student Tools</title>
+<style>
+:root{
+  --bg:#f3f6fb; --card:#ffffff; --text:#222; --accent:#2563eb; --accent-text:#ffffff; --border:#ddd;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12151c; --card:#1c2029; --text:#e8e8e8; --accent:#3b82f6; --accent-text:#ffffff; --border:#333;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12151c; --card:#1c2029; --text:#e8e8e8; --accent:#3b82f6; --accent-text:#ffffff; --border:#333;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:var(--accent);color:var(--accent-text);text-align:center;padding:25px}
+main{max-width:700px;margin:25px auto;padding:15px}
+.card{background:var(--card);padding:20px;margin:15px 0;border-radius:16px;box-shadow:0 4px 15px #0002}
+input,button{width:100%;padding:12px;margin:6px 0;border:1px solid var(--border);border-radius:9px;font-size:16px;background:var(--card);color:var(--text)}
+button{background:var(--accent);color:var(--accent-text);border:0;cursor:pointer}
+.result{font-weight:bold;margin-top:10px;font-size:18px}
+#timer{font-size:40px;text-align:center;margin:15px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>📚 Student Tools</h1>
+<p>Free & Easy Tools for Students</p>
+</header>
+
+<main>
+
+<div class="card">
+<h2>🧮 Percentage Calculator</h2>
+<input id="marks" type="number" placeholder="Obtained Marks">
+<input id="total" type="number" placeholder="Total Marks">
+<button onclick="percent()">Calculate</button>
+<div id="presult" class="result"></div>
+</div>
+
+<div class="card">
+<h2>🎂 Age Calculator</h2>
+<input id="dob" type="date">
+<button onclick="age()">Calculate Age</button>
+<div id="aresult" class="result"></div>
+</div>
+
+<div class="card">
+<h2>⏱️ Study Timer</h2>
+<div id="timer">25:00</div>
+<button onclick="start()">Start</button>
+<button onclick="reset()">Reset</button>
+</div>
+
+</main>
+
+<script>
+function percent(){
+ let m=+marks.value,t=+total.value;
+ presult.textContent=t>0&&m>=0?"Percentage: "+(m/t*100).toFixed(2)+"%":"Enter valid marks";
+}
+
+function age(){
+ let d=new Date(dob.value),n=new Date();
+ if(isNaN(d))return aresult.textContent="Select your birth date";
+ let x=n.getFullYear()-d.getFullYear();
+ if(n<new Date(n.getFullYear(),d.getMonth(),d.getDate()))x--;
+ aresult.textContent="Age: "+x+" years";
+}
+
+let sec=1500,id;
+function show(){
+ timer.textContent=String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0");
+}
+function start(){
+ clearInterval(id);
+ id=setInterval(()=>{if(sec>0){sec--;show()}else clearInterval(id)},1000);
+}
+function reset(){
+ clearInterval(id);sec=1500;show();
+}
+show();
+</script>
+
+</body>
+</html>
